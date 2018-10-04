@@ -11,4 +11,3 @@ script:
 - coveralls
 - coverage report
 after_success:
-- coveralls
