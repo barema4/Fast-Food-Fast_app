@@ -1,5 +1,5 @@
 from flask import Flask
-from urls import GetRoutes
+from api.routes.urls import GetRoutes
 from flask_jwt_extended import JWTManager
 app = Flask(__name__)
 app.env = 'development'
