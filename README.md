@@ -54,16 +54,16 @@ FAST-FOOD-FAST app has got backend develop of api endpoints that consists of Nin
  
  Api endpoints and their Routes
  
-VERB                            endpoint                                 use
-POST                              /api/v2/user/auth/signup            Register a user
-POST                             /api/v2/user/auth/login              Login in
-POST                            /api/v2/user /users/orders          Place the order
-GET                            /api/v2/user/orders                   Get the order history for a particular user.
-GET                           /api/v2/orders/                       Get all orders
-GET                          /api/v2/orders/<orderId>              Fetch a specific order
-PUT                         /api/v2/orders/<orderId>              Update the status  of an order
-GET                        /api/v2/menu                          Get available menu
-POST                      /api/v2/menu                          Add a meal option to the menu.
+* VERB                            endpoint                                 use
+* POST                              /api/v2/user/auth/signup            Register a user
+* POST                             /api/v2/user/auth/login              Login in
+* POST                            /api/v2/user /users/orders          Place the order
+* GET                            /api/v2/user/orders                   Get the order history for a particular user.
+* GET                           /api/v2/orders/                       Get all orders
+* GET                          /api/v2/orders/<orderId>              Fetch a specific order
+* PUT                         /api/v2/orders/<orderId>              Update the status  of an order
+* GET                        /api/v2/menu                          Get available menu
+* POST                      /api/v2/menu                          Add a meal option to the menu.
 
 
 Deployment
