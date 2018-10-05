@@ -18,7 +18,7 @@ addons:
   postgresql: "9.5"
 
 script:
-- pytest --cov=.
+- pytest --cov=food_api
 - coveralls
 
 after_success:
