@@ -1,15 +1,15 @@
-
 language: python
 python:
-  - "3.6.5"
-
+- '3.6.5'
+sudo: false
+cache: pip3
 install:
-
- - pip install -r requirements.txt
-
+- pip install -r requirements.txt
 script:
 - pytest --cov=.
+- coverage
 - coveralls
-
+- coverage report
 after_success:
 - coveralls
+
