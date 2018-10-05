@@ -12,7 +12,7 @@ services:
 
 before_script:
 
-- psql - c 'create database andela;' -U postgres
+- psql -c 'create database andela;' -U postgres
 
 addons:
   postgresql: "9.4"
