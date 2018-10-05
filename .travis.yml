@@ -7,18 +7,7 @@ install:
 
  - pip install -r requirements.txt
 
- services:
-
-  - postgresql
-
-before_script:
-
-- psql - c 'create database andela;' -U postgres
-
-addons:
-  postgresql: "9.4"
-
-scripts:
+script:
 - pytest --cov=.
 - coveralls
 
