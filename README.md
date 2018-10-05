@@ -1,7 +1,7 @@
 # Food_database
 
 [![Build Status](https://travis-ci.org/barema4/Fast-Food-Fast_app.svg?branch=final)](https://travis-ci.org/barema4/Fast-Food-Fast_app)
-
+[![Coverage Status](https://coveralls.io/repos/github/barema4/Fast-Food-Fast_app/badge.svg?branch=final)](https://coveralls.io/github/barema4/Fast-Food-Fast_app?branch=final)
 
 
 
