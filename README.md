@@ -1,5 +1,7 @@
 # Food_database
 
+[![Build Status](https://travis-ci.org/barema4/Fast-Food-Fast_app.svg?branch=final)](https://travis-ci.org/barema4/Fast-Food-Fast_app)
+
 
 
 
