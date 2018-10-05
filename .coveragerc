@@ -1,0 +1,3 @@
+[run]
+[report]
+omit = venv/*
