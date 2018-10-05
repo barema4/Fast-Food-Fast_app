@@ -6,7 +6,7 @@ install:
 services:
 - postgresql
 before_script:
-- psql - c 'create database andela;' -U postgres
+- psql -c 'create database andela;' -U postgres
 script:
 - pytest --cov=food_api
 - coveralls
