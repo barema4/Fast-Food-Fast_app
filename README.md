@@ -3,6 +3,8 @@
 [![Build Status](https://travis-ci.org/barema4/Fast-Food-Fast_app.svg?branch=final)](https://travis-ci.org/barema4/Fast-Food-Fast_app)
 [![Coverage Status](https://coveralls.io/repos/github/barema4/Fast-Food-Fast_app/badge.svg?branch=final)](https://coveralls.io/github/barema4/Fast-Food-Fast_app?branch=final)
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/6068b24b62ad15cc2f63/maintainability)](https://codeclimate.com/github/barema4/Fast-Food-Fast_app/maintainability)
+
 
 
 
