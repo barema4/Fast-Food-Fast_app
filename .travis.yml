@@ -1,0 +1,28 @@
+language: python
+python:
+  - "3.6.5"
+
+install:
+
+ -pip install -r requirements.txt
+
+ services:
+
+  - postgresql
+
+before_script:
+
+- psql - c 'create database andela;' -U postgres
+
+addons:
+  postgresql: "9.5"
+
+script:
+- pytest --cov=.
+- coveralls
+
+after_success:
+- coveralls
+
+
+
