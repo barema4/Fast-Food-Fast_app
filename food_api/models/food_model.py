@@ -30,6 +30,7 @@ class DatabaseConnection():
                     user_name VARCHAR(30) NOT NULL,
                     order_name VARCHAR(20) NOT NULL,
                     order_status VARCHAR(20) DEFAULT 'NEW' NOT NULL,
+                    price VARCHAR(20) NOT NULL,
                     order_date date                                   
 
                 )
@@ -81,7 +82,7 @@ class DatabaseConnection():
                 return user
         return None
 
-    def insert_order(self,user_id, order_name):
+    def insert_order(self,user_id, order_name,price):
         self.cursor.execute("SELECT user_name FROM users WHERE user_id= %s", [user_id])
         name = self.cursor.fetchone()
         print(name[0])
@@ -90,7 +91,7 @@ class DatabaseConnection():
         date_time = datetime.datetime.fromtimestamp(time_value).strftime('%Y-%m-%d %H:%M:%S')
 
 
-        insert_new_order = "INSERT INTO orders(user_id, user_name, order_name, order_date) VALUES('" + user_id+ "', '" +name[0]+ "','"+order_name+  "',  '" + date_time + "')"
+        insert_new_order = "INSERT INTO orders(user_id, user_name, order_name, price, order_date) VALUES('" + user_id+ "', '" +name[0]+ "','"+order_name+  "', '"+order_name+  "',  '" + date_time + "')"
         self.cursor.execute(insert_new_order)
         return "order succcssfully created"
 
@@ -102,7 +103,9 @@ class DatabaseConnection():
         keys = ["order_id", "user_id", "user_name", "order_name", "order_status", "order_date"]
 
         orders = self.cursor.fetchall()
-        print(user_id)
+        
+
+        order_list = []
         
         for order in orders:
             order_list.append(dict(zip(keys, order)))
