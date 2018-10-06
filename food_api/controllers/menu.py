@@ -13,7 +13,7 @@ class AddItem(MethodView):
             return jsonify({'message': " item_name field should not be empty"}), 400
         user = get_jwt_identity()
         user_type = user[4]
-        if user_type != True:
+        if user_type != "true":
             return jsonify({"item": 'Not authorized for this function'}), 401
 
         

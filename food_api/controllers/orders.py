@@ -15,11 +15,14 @@ class NewOrder(MethodView):
 
         if request.json["order_name"] == "":
             return jsonify({'message': 'place order'}), 400
+
+        if request.json["price"] == "":
+            return jsonify({'message': 'enter the price'}), 400
         
         user = get_jwt_identity()
         
         order = DatabaseConnection()
-        new_order = order.insert_order(str(user[0]), request.json['order_name'])
+        new_order = order.insert_order(str(user[0]), request.json['order_name'],request.json['price'])
 
         if new_order == "order exits ":
             return jsonify({'message': "order not added"}), 401
