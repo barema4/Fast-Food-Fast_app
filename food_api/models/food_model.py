@@ -91,7 +91,7 @@ class DatabaseConnection():
         date_time = datetime.datetime.fromtimestamp(time_value).strftime('%Y-%m-%d %H:%M:%S')
 
 
-        insert_new_order = "INSERT INTO orders(user_id, user_name, order_name, price, order_date) VALUES('" + user_id+ "', '" +name[0]+ "','"+order_name+  "', '"+order_name+  "',  '" + date_time + "')"
+        insert_new_order = "INSERT INTO orders(user_id, user_name, order_name, price, order_date) VALUES('" + user_id+ "', '" +name[0]+ "','"+order_name+  "', '"+price+  "',  '" + date_time + "')"
         self.cursor.execute(insert_new_order)
         return "order succcssfully created"
 
