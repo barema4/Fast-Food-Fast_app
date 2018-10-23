@@ -1,1 +1,1 @@
-web: gunicorn --chdir food_api run:APP
+web: gunicorn --chdir food_api run:app
