@@ -49,10 +49,10 @@ class DatabaseConnection():
             if (os.getenv("FLASK_ENV")) == "Production":
                 self.connection = psycopg2.connect(os.getenv("DATABASE_URL"))
             else:
-                self.connection = psycopg2.connect(dbname='andela',
-                                                   user='postgres',
-                                                   password='',
-                                                   host='localhost',
+                self.connection = psycopg2.connect(dbname='d5f93vb5iruhdl',
+                                                   user='kcyaglusahrjmq',
+                                                   password='4abcfa2ed89e721e811df31b045b3cfa2cc84b6c41a757e0469f636d21d2708f',
+                                                   host='ec2-54-225-97-112.compute-1.amazonaws.com',
                                                    port='5432')
             self.connection.autocommit = True
             self.cursor = self.connection.cursor()
