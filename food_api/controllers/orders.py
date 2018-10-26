@@ -2,7 +2,7 @@ from flask import jsonify, request
 from flask.views import MethodView
 from food_api.models.food_model import DatabaseConnection
 import re
-from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
+from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity,get_raw_jwt
 import datetime
 
 class NewOrder(MethodView):
@@ -26,7 +26,7 @@ class NewOrder(MethodView):
 
         if new_order == "order exits ":
             return jsonify({'message': "order not added"}), 401
-        return jsonify({'message': new_order}), 201
+        return jsonify({'message': new_order,'user':user}), 201
 
 
 
@@ -34,12 +34,14 @@ class GetHistory(MethodView):
     @jwt_required
     def get(self):
         user = get_jwt_identity()
+        print(user)
         history = DatabaseConnection()
         order_list = history.order_history(user[0])
         if order_list == "No orders":
             return jsonify({"order": order_list}), 404
 
         return jsonify(order_list)
+        
 
 
 
@@ -77,15 +79,17 @@ class GetSpecificOrders(MethodView):
         
 class Update_order(MethodView):
     @jwt_required
-    def put(self,order_id):
+    def post(self):
         user = get_jwt_identity()
         user_type = user[4]
+        order_id = request.json["order_id"]
+        order_status = request.json["order_status"]
         if user_type != "true":
             return jsonify({"item": 'Not authorized for this function'}), 401
 
         order = DatabaseConnection()
-        order = order.update_status(order_id,request.json['order_status'])
-        if order == "No order available":
-            return jsonify({"order_status": 'order_status not updated'}),404
-        return jsonify({"order_status":'status successfuly updated'}),200
+        message = order.update_status(order_id,order_status)
+
+
+        return jsonify({"message": message}),200
 
