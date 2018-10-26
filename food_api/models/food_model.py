@@ -100,7 +100,7 @@ class DatabaseConnection():
     def order_history(self, user_id):
         
         self.cursor.execute("SELECT * FROM orders WHERE user_id = %s", [user_id])
-        keys = ["order_id", "user_id", "user_name", "order_name", "order_status", "order_date"]
+        keys = ["order_id", "user_id", "user_name", "order_name", "order_status","price", "order_date"]
 
         orders = self.cursor.fetchall()
         
@@ -118,7 +118,7 @@ class DatabaseConnection():
 
         order_in = "SELECT * FROM orders"
         self.cursor.execute(order_in)
-        keys = ["order_id", "user_id","user_name", "order_name", "order_status", "order_date"]
+        keys = ["order_id", "user_id","user_name", "order_name", "order_status", "price", "order_date"]
         orders = self.cursor.fetchall()
        
         order_list = []
@@ -131,7 +131,7 @@ class DatabaseConnection():
     def get_one_order(self, order_id):
 
         self.cursor.execute("SELECT * FROM orders WHERE order_id = %s", [order_id])
-        keys = ["order_id", "user_id","user_name", "order_name", "order_status", "order_date"]
+        keys = ["order_id", "user_id","user_name", "order_name", "order_status", "price", "order_date"]
         order = self.cursor.fetchone()
         order_list = []
         if not order:
