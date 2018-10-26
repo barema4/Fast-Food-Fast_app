@@ -1,7 +1,8 @@
-from flask import jsonify, request
+from flask import jsonify, request,redirect,render_template
 from flask.views import MethodView
 from food_api.models.food_model import DatabaseConnection
 import re
+
 from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
 import datetime
 
@@ -63,7 +64,7 @@ class Login(MethodView):
 
         user_login = DatabaseConnection()
         user = user_login.get_credentials(request.json['email'], request.json['password'])
-        print(user)
+        # print(user)
 
 
         if user:
@@ -71,9 +72,23 @@ class Login(MethodView):
             return jsonify({
                 "access_token": create_access_token(identity=user,expires_delta=datetime.timedelta(minutes= 25)),
                 "message": "Login successful",
-                "userType":user
-            }), 201
+            "userType":user
+            }), 200
+            
 
         return jsonify({"message": "Wrong email or password"}), 401
+
+class Update_user(MethodView):
+    
+    def put(self,user_id):
+        
+
+        user = DatabaseConnection()
+        userType = user.update_user(user_id,request.json['user_type'])
+        if userType == "No user available":
+            return jsonify({"user_type": 'user_type not updated'}),404
+        return jsonify({"user_type":'user_type successfuly updated'}),200
+
+
 
         
