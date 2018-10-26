@@ -49,10 +49,10 @@ class DatabaseConnection():
             if (os.getenv("FLASK_ENV")) == "Production":
                 self.connection = psycopg2.connect(os.getenv("DATABASE_URL"))
             else:
-                self.connection = psycopg2.connect(dbname='d5f93vb5iruhdl',
-                                                   user='kcyaglusahrjmq',
-                                                   password='4abcfa2ed89e721e811df31b045b3cfa2cc84b6c41a757e0469f636d21d2708f',
-                                                   host='ec2-54-225-97-112.compute-1.amazonaws.com',
+                self.connection = psycopg2.connect(dbname='andela',
+                                                   user='postgres',
+                                                   password='',
+                                                   host='localhost',
                                                    port='5432')
             self.connection.autocommit = True
             self.cursor = self.connection.cursor()
@@ -91,9 +91,9 @@ class DatabaseConnection():
         date_time = datetime.datetime.fromtimestamp(time_value).strftime('%Y-%m-%d %H:%M:%S')
 
 
-        insert_new_order = "INSERT INTO orders(user_id, user_name, order_name, price, order_date) VALUES('" + user_id+ "', '" +name[0]+ "','"+order_name+  "', '"+price+  "',  '" + date_time + "')"
+        insert_new_order = "INSERT INTO orders(user_id, user_name, order_name, price, order_date) VALUES('" + user_id+ "', '" +name[0]+ "','"+order_name+  "','"+price+  "', '" + date_time + "')"
         self.cursor.execute(insert_new_order)
-        return "order succcssfully created"
+        return "success"
 
 
 
@@ -103,8 +103,7 @@ class DatabaseConnection():
         keys = ["order_id", "user_id", "user_name", "order_name", "order_status","price", "order_date"]
 
         orders = self.cursor.fetchall()
-        
-
+        print(user_id)
         order_list = []
         
         for order in orders:
@@ -116,9 +115,9 @@ class DatabaseConnection():
 
     def all_orders(self):
 
-        order_in = "SELECT * FROM orders"
+        order_in = "SELECT * FROM orders ORDER BY order_id"
         self.cursor.execute(order_in)
-        keys = ["order_id", "user_id","user_name", "order_name", "order_status", "price", "order_date"]
+        keys = ["order_id", "user_id","user_name", "order_name", "order_status","price", "order_date"]
         orders = self.cursor.fetchall()
        
         order_list = []
@@ -131,7 +130,7 @@ class DatabaseConnection():
     def get_one_order(self, order_id):
 
         self.cursor.execute("SELECT * FROM orders WHERE order_id = %s", [order_id])
-        keys = ["order_id", "user_id","user_name", "order_name", "order_status", "price", "order_date"]
+        keys = ["order_id", "user_id","user_name", "order_name", "order_status","price","order_date"]
         order = self.cursor.fetchone()
         order_list = []
         if not order:
@@ -165,7 +164,16 @@ class DatabaseConnection():
         self.cursor.execute(
             "UPDATE orders SET order_status = %s WHERE order_id = %s",[order_status,order_id]
         )
+        return "success"
+       
+
 
     def update_admin(self):
         self.cursor.execute("UPDATE users SET user_type ='true' WHERE user_id = 1")
+
+
+    def update_user(self,user_id,user_type):
+        self.cursor.execute(
+            "UPDATE users SET user_type = %s WHERE user_id = %s",[user_type,user_id]
+        )
     
