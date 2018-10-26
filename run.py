@@ -1,8 +1,10 @@
 from flask import Flask,jsonify
 from food_api.urls.urls import GetRoutes
+from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from food_api.models.food_model import DatabaseConnection
 app = Flask(__name__)
+CORS(app)
 app.env = 'development'
 GetRoutes.fetch_routes(app)
 app.config['JWT_SECRET_KEY'] = 'rubarema'
