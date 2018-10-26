@@ -1,4 +1,4 @@
-from food_api.controllers.Authent import SignUp,Login
+from food_api.controllers.Authent import SignUp,Login,Update_user
 from food_api.controllers.orders import NewOrder,GetHistory,GetOrders,GetSpecificOrders,Update_order
 from food_api.controllers.menu import AddItem,GetMenu
 
@@ -24,6 +24,9 @@ class GetRoutes():
                          view_func=AddItem.as_view('AddItem'), methods=['POST', ])
         app.add_url_rule('/api/v2/menu',
                          view_func=GetMenu.as_view('GetMenu'), methods=['GET', ])
-        app.add_url_rule('/api/v2/order/<int:order_id>',
-                         view_func=Update_order.as_view('Update_order'), methods=['PUT', ])
+        app.add_url_rule('/api/v2/order',
+                         view_func=Update_order.as_view('Update_order'), methods=['POST', ])
+
+        app.add_url_rule('/api/v2/user/<int:user_id>',
+                         view_func=Update_user.as_view('Update_user'), methods=['PUT', ])
                          
