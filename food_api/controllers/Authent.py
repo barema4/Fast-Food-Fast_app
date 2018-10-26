@@ -70,7 +70,8 @@ class Login(MethodView):
 
             return jsonify({
                 "access_token": create_access_token(identity=user,expires_delta=datetime.timedelta(minutes= 25)),
-                "message": "Login successful"
+                "message": "Login successful",
+                "userType":user
             }), 201
 
         return jsonify({"message": "Wrong email or password"}), 401
