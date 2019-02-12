@@ -21,7 +21,7 @@ class SignUp(MethodView):
             return jsonify({'message': 'Remove spaces in your user_name'}), 400
 
         if request.json['password'] == "":
-            return jsonify({'message': 'Enter password'}), 400
+            return jsonify({'Password': 'Enter password'}), 400
 
         if (' ' in request.json['password']) == True:
             return jsonify({'Password': 'Remove spaces in password'}), 400
