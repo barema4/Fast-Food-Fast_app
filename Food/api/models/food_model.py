@@ -150,6 +150,13 @@ class DatabaseConnection():
                 return "No menu"
         return menu_list
 
+    def update_status(self, order_id, order_status):
+        self.cursor.execute(
+            "UPDATE orders SET order_status = %s WHERE order_id = %s", [order_status, order_id]
+        )
+
+
+
 
 
 

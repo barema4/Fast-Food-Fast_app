@@ -1,6 +1,6 @@
 from flask import jsonify, request
 from flask.views import MethodView
-from food_model import DatabaseConnection
+from api.models.food_model import DatabaseConnection
 import re
 from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
 import datetime
@@ -35,7 +35,7 @@ class SignUp(MethodView):
 
         data = DatabaseConnection()
         register_details = data.insert_new_user(request.json['user_name'], request.json['email'],
-                                                request.json['password'],request.json['user_type'])
+                                                request.json['password'],False)
         if register_details == "email already exits":
             return jsonify({'message': register_details}), 401
 
@@ -65,6 +65,7 @@ class Login(MethodView):
         user = user_login.get_credentials(request.json['email'], request.json['password'])
 
 
+
         if user:
 
             return jsonify({
@@ -72,7 +73,7 @@ class Login(MethodView):
                 "message": "Login successful"
             }), 200
 
-        return jsonify({"message": "Wrong login_crendentials"}), 401
+        return jsonify({"message": "Wrong email or password"}), 401
 
 class NewOrder(MethodView):
 
@@ -84,73 +85,18 @@ class NewOrder(MethodView):
 
         if request.json["order_name"] == "":
             return jsonify({'message': 'place order'}), 400
+        if not request.json['order_status']:
+            return jsonify({'message': " field should not be empty"}), 400
+
+        if request.json["order_status"] == "":
+            return jsonify({'message': 'place order'}), 400
 
         user = get_jwt_identity()
-        # return jsonify(user=user[4])
+        
         order = DatabaseConnection()
         new_order = order.insert_order(str(user[0]), request.json['order_name'],request.json['order_status'])
 
         if new_order == "order exits ":
             return jsonify({'message': "order not added"}), 401
         return jsonify({'message': new_order}), 201
-
-
-
-class GetHistory(MethodView):
-    @jwt_required
-    def get(self):
-        user = get_jwt_identity()
-        history = DatabaseConnection()
-        order_list = history.order_history(user[0])
-        if order_list == "No orders":
-            return jsonify({"order": order_list}), 404
-
-        return jsonify(order_list)
-
-
-
-class GetOrders(MethodView):
-    @jwt_required
-    def get(self):
-        user = get_jwt_identity()
-        user_type=user[4]
-        if user_type != "true":
-            return jsonify(error='unthorized access for admin'),401
-
-        order_item = DatabaseConnection()
-        order_list = order_item.all_orders()
-        if order_list == "No orders available":
-            return jsonify({"order": 'we donot have orders'}), 404
-
-        return jsonify({"order_list":order_list}),200
-
-class GetSpecificOrders(MethodView):
-    def get(self,order_id):
-
-        order_item = DatabaseConnection()
-        order_list =  order_item.get_one_order(order_id)
-        if order_list == "No order available":
-            return jsonify({"order": 'No specific order for this endpoint'}), 404
-        return jsonify({"order_list":order_list})
-
-class AddItem(MethodView):
-    def post(self):
-        if not request.json['item']:
-            return jsonify({'message': " item_name field should not be empty"}), 400
-
-        order = DatabaseConnection()
-        new_item = order.insert_item( request.json['item'])
-        if new_item == "No item to add ":
-            return jsonify({'message': "item not added"}), 401
-        return jsonify({'message': new_item}), 201
-
-class GetMenu(MethodView):
-
-    def get(self):
-        menu = DatabaseConnection()
-        menu_list = menu.all_menu()
-        if menu_list == "No orders available":
-            return jsonify({"menu": 'we do not have food on the menu'}), 404
-
-        return jsonify({"menu_list": menu_list}),200
 

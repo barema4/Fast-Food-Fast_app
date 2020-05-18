@@ -2,9 +2,6 @@ import unittest
 import json
 from run import app
 
-
-
-
 class UsersTest(unittest.TestCase):
     """
     Users Test Case
@@ -16,9 +13,6 @@ class UsersTest(unittest.TestCase):
         """
         self.order = app
         self.client = self.order.test_client
-
-
-
 
     def test_user_creation(self):
         """ test user creation with invalid credentials """
@@ -58,7 +52,7 @@ class UsersTest(unittest.TestCase):
 
 
     def test_user_creation_with_no_user_name(self):
-        """ test user creation with no user_name """
+
         result = self.client().post('/api/v2/auth/signup',
                                     content_type="application/json",
                                     data=json.dumps(dict(user_name="", email="sam@gmail.com",
@@ -80,20 +74,20 @@ class UsersTest(unittest.TestCase):
         self.assertIsInstance(res, dict)
         self.assertEqual(result.status_code, 400)
         self.assertTrue(result.json["message"])
-
+    
     def test_user_login(self):
         """ User Login Tests """
-        res = self.client().post('/api/v2/auth/login', headers={'Content-Type': 'application/json'},
-                                 data=json.dumps(dict(email="sam@gmail.com", password="12345678")))
-        self.assertEqual(res.status_code, 401)
-        res = self.client().post('/api/v2/auth/login', headers={'Content-Type': 'application/json'},
-                                 data=json.dumps(dict(email="sam@gmail.com", password="12345678")))
-        json_data = json.loads(res.data)
-        self.assertTrue(json_data.get('jwt_token'))
-        # self.assertEqual(res.status_code, 200)
+        result = self.client().post('/api/v2/auth/login',
+                                    content_type="application/json",
+                                    data=json.dumps(dict(email="sam@gmail.com", password="12345678")))
+        respond = json.loads(result.data.decode("utf8"))
+        self.assertIn('message', respond)
+        self.assertIsInstance(respond, dict)
+        self.assertEqual(result.status_code, 401)
+        self.assertTrue(result.json["message"])
 
     def test_user_login_with_invalid_password(self):
-        """ User Login Tests with invalid credentials """
+
         result = self.client().post('/api/v2/auth/login', headers={'Content-Type': 'application/json'},
                                  data=json.dumps(dict(email="sam@gmail.com", password="12345")))
 
@@ -114,10 +108,13 @@ class UsersTest(unittest.TestCase):
         self.assertEqual(result.status_code, 401)
         self.assertTrue(result.json["message"])
 
-    def test_post_order(self):
-        result = self.client().post('api/v2/orders', content_type="application/json", data=json.dumps(
-            dict(order_name="matoke", order_status="pending",)))
-        self.assertEqual(result.status_code, 201)
-        resp = json.loads(result.data.decode())
-        self.assertTrue(resp["message"])
+    def test_login(self):
 
+        result = self.client().post('/api/v2/auth/login',
+                                    content_type="application/json",
+                                    data=json.dumps(dict(user_name="sam", password="12345678")))
+        respond = json.loads(result.data.decode("utf8"))
+        self.assertIn('message', respond)
+        self.assertIsInstance(respond, dict)
+        self.assertEqual(result.status_code, 400)
+        self.assertTrue(result.json["message"])
